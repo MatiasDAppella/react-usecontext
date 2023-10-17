@@ -4,10 +4,26 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 import { ThemeContext } from './contexts/ThemeContext'
+import { StoreContext } from './store/StoreProvider'
 
 function App() {
   const { toogleTheme } = useContext(ThemeContext)
-  const [count, setCount] = useState(0)
+  const {
+    user,
+    loginUser,
+    logoutUser
+  } = useContext(StoreContext)
+  
+  const [input, setInput] = useState("")
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    if (user !== "") return logoutUser()
+    
+    loginUser(input)
+    setInput("")
+    console.log(user)
+  }
 
   return (
     <>
@@ -20,18 +36,16 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <form className='form' onSubmit={handleSubmit}>
+        {(user === "") ? <span>{user}</span> : <input value={input} onChange={(e) => setInput(e.target.value)} type="text" />}
+        <button type='submit'>
+          {(user !== "") ? "Login": "Logout"}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
+      </form>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <button onClick={() => toogleTheme()}>toogle theme</button>
+      <button onClick={() => toogleTheme()}>Toogle theme</button>
     </>
   )
 }
