@@ -9,7 +9,7 @@ import { StoreContext } from './store/StoreProvider'
 function App() {
   const { toogleTheme } = useContext(ThemeContext)
   const {
-    user,
+    state,
     loginUser,
     logoutUser
   } = useContext(StoreContext)
@@ -18,11 +18,10 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (user !== "") return logoutUser()
+    if (state.user !== "") return logoutUser()
     
-    loginUser(input)
+    loginUser({ user: input })
     setInput("")
-    console.log(user)
   }
 
   return (
@@ -37,9 +36,9 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <form className='form' onSubmit={handleSubmit}>
-        {(user === "") ? <span>{user}</span> : <input value={input} onChange={(e) => setInput(e.target.value)} type="text" />}
+        {(state.user !== "") ? <span>Welcome <strong>{state.user}</strong>!</span> : <input value={input} onChange={(e) => setInput(e.target.value)} type="text" />}
         <button type='submit'>
-          {(user !== "") ? "Login": "Logout"}
+          {(state.user === "") ? "Login": "Logout"}
         </button>
       </form>
       <p className="read-the-docs">

@@ -6,14 +6,14 @@ export const StoreContext = createContext(null)
 // eslint-disable-next-line react/prop-types
 export default function StoreProvider({ children }){
   const {
-    user,
+    state,
     loginUser,
     logoutUser
   } = useStoreReducer()
 
   return <StoreContext.Provider
     value={{
-      user,
+      state,
       loginUser,
       logoutUser
     }}
